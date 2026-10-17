@@ -1,8 +1,8 @@
 CC      = gcc
-CFLAGS  = -std=c11 -Wall -Wextra -pthread
+CFLAGS  = -std=c11 -Iinclude -Wall -Wextra -pthread
 LDFLAGS = -pthread
 
-SRCS = main.c pool.c worker.c jobqueue.c
+SRCS = src/main.c src/pool.c src/worker.c src/jobqueue.c
 OBJS = $(SRCS:.c=.o)
 TARGET = poolsched
 
@@ -11,8 +11,8 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^
 
-%.o: %.c poolsched.h
-	$(CC) $(CFLAGS) -c $<
+%.o: %.c include/poolsched.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS) $(TARGET)
